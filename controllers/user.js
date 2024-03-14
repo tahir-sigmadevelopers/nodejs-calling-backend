@@ -6,11 +6,11 @@ import cloudinary from "cloudinary";
 
 export const registerUser = async (req, res, next) => {
   try {
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.image, {
-      folder: "User",
-      width: 150,
-      crop: "scale",
-    });
+    // const myCloud = await cloudinary.v2.uploader.upload(req.body.image, {
+    //   folder: "User",
+    //   width: 150,
+    //   crop: "scale",
+    // });
 
     // console.log(req.body.image);
     const { name, email, password } = req.body;
@@ -25,10 +25,10 @@ export const registerUser = async (req, res, next) => {
       name,
       email,
       password,
-      image: {
-        public_id: myCloud.public_id,
-        url: myCloud.secure_url,
-      },
+      // image: {
+      //   public_id: myCloud.public_id,
+      //   url: myCloud.secure_url,
+      // },
     });
 
     return res.status(201).json({
@@ -39,7 +39,7 @@ export const registerUser = async (req, res, next) => {
   } catch (error) {
     return next(
       new ErrorHandler(
-        `Error Occured While Creating the User ${error.message}`,
+        `Error Occured While Creating the User ${error}`,
         500
       )
     );

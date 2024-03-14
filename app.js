@@ -14,7 +14,7 @@ app.use(fileUpload());
 // using Middlewares
 app.use(
   cors({
-    origin: ["https://dialwhy.com"],
+    origin: ["https://dialwhy.com","http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
