@@ -18,9 +18,35 @@ const userSchema = new mongoose.Schema({
 
   role: {
     type: String,
-    default: "user",
+    default: "student",
   },
+  country:{
+    type:String,
+    required: true,
+  },
+  state:{
+    type:String,
+    required: true,
+  },
+  street:{
+    type:String,
+    required: true,
 
+  },
+  zipcode:{
+    type:String,
+    required: true,
+
+  },
+  phoneNumber:{
+    type:String,
+    required: true,
+
+  },
+  approved:{
+    type:Boolean,
+    default:false
+  },
   image: {
     public_id: {
       type: String,

@@ -1,8 +1,5 @@
-import bcrypt from "bcryptjs/dist/bcrypt.js";
 import ErrorHandler from "../middlewares/Error.js";
 import User from "../models/user.js";
-import crypto from "crypto";
-import cloudinary from "cloudinary";
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -13,7 +10,16 @@ export const registerUser = async (req, res, next) => {
     // });
 
     // console.log(req.body.image);
-    const { name, email, password } = req.body;
+    const {
+      name,
+      email,
+      password,
+      country,
+      state,
+      street,
+      zipcode,
+      phoneNumber,
+    } = req.body;
 
     let user = await User.findOne({ email });
 
@@ -21,15 +27,20 @@ export const registerUser = async (req, res, next) => {
 
     // const hashedPassword = await bcrypt.hash(password, 10);
 
+    console.log("main hoon user", user);
+
     user = await User.create({
       name,
       email,
       password,
-      // image: {
-      //   public_id: myCloud.public_id,
-      //   url: myCloud.secure_url,
-      // },
+      country,
+      state,
+      street,
+      zipcode,
+      phoneNumber,
     });
+
+    console.log(user);
 
     return res.status(201).json({
       success: true,
@@ -38,10 +49,7 @@ export const registerUser = async (req, res, next) => {
     });
   } catch (error) {
     return next(
-      new ErrorHandler(
-        `Error Occured While Creating the User ${error}`,
-        500
-      )
+      new ErrorHandler(`Error Occured While Creating the User ${error}`, 500)
     );
   }
 };
@@ -90,9 +98,19 @@ export const getMyProfile = async (req, res, next) => {
 
 export const updateProfile = async (req, res, next) => {
   try {
-    const { name, email, loggedInUserEmail } = req.body;
+    const {
+      name,
+      email,
+      password,
+      country,
+      state,
+      street,
+      zipcode,
+      phoneNumber,
+      loggedInUserEmail,
+    } = req.body;
     let user = await User.findOne({ email: loggedInUserEmail });
-    console.log(user);
+    console.log("hero aaya", user);
     // Image Deletion and Updation Code Starts Here
     // if (req.body.image) {
     //   if (user.image && user.image.public_id) {
@@ -121,7 +139,26 @@ export const updateProfile = async (req, res, next) => {
     if (email) {
       user.email = email;
     }
+    if (password) {
+      user.password = password;
+    }
+    if (country) {
+      user.country = country;
+    }
+    if (state) {
+      user.state = state;
+    }
+    if (street) {
+      user.street = street;
+    }
+    if (zipcode) {
+      user.zipcode = zipcode;
+    }
+    if (phoneNumber) {
+      user.phoneNumber = phoneNumber;
+    }
 
+    // user = await User.findOneAndUpdate(loggedInUserEmail, req.body);
     await user.save();
 
     return res.status(200).json({
@@ -132,7 +169,7 @@ export const updateProfile = async (req, res, next) => {
   } catch (error) {
     return next(
       new ErrorHandler(
-        `Error Occurred While Updating User Profile ${error.message}`,
+        `Error Occurred While Updating User Profile ${error}`,
         500
       )
     );
