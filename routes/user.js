@@ -17,7 +17,6 @@ router.post("/login", loginUser);
 router.put("/profile/update", updateProfile);
 
 
-
 router.get("/logout", logoutUser);
 
 router.get("/profile", getMyProfile);
